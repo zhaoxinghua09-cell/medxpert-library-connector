@@ -1,0 +1,12 @@
+# MedXpert 图书馆（通用版）连接器 — 依赖说明
+#
+# 运行时仅依赖 Python 标准库（无需 pip install 任何第三方包）。
+# 唯一的外部环境依赖是本地 Ollama（用于嵌入与生成）：
+#   1. 安装 Ollama：https://ollama.com
+#   2. 拉取嵌入模型（检索必备）：
+#        ollama pull bge-m3
+#   3. 拉取生成模型（ask_knowledge 问答可选）：
+#        ollama pull qwen2.5:7b
+#
+# 默认模型可在 connector-meta.json / mcp.json 的 env 中覆盖：
+#   LIBRARY_EMBED_MODEL / LIBRARY_GEN_MODEL / OLLAMA_BASE_URL / LIBRARY_WIKI_DIR

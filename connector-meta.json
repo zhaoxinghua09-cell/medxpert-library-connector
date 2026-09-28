@@ -1,0 +1,163 @@
+{
+  "name": "medxpert-library-connector",
+  "displayName": "MedXpert 图书馆（通用版）",
+  "version": "1.0.0",
+  "type": "mcp",
+  "category": "knowledge / 本地知识库检索",
+  "author": "注册老炮 (Reg Lao Pao)",
+  "maintainer": "潘布达（内容发布运营团）",
+  "license": "MIT",
+  "homepage": "https://medxpert.cn",
+  "repository": "https://github.com/MedXpert-Group/medxpert-library-connector",
+  "description": "MedXpert 本地知识库 MCP 连接器（通用版）：把你自己的 wiki（.md）做成可语义检索、可 RAG 问答的本地知识库。纯标准库实现，仅依赖本地 Ollama 做嵌入/生成，零第三方依赖、零积分、断网可用。知识库随你自有文档，不绑定任何私有数据。",
+  "description_en": "MedXpert local knowledge-base MCP connector (generic edition): turn your own wiki (.md) into a locally searchable, RAG-questionable knowledge base. Pure-stdlib stdio JSON-RPC server, depends only on local Ollama for embeddings/generation. Zero third-party deps, zero credits, works offline. Your docs stay yours — no private data bundled.",
+  "examples_zh": [
+    "search_knowledge: 二类医疗器械注册需要提交哪些资料",
+    "ask_knowledge: ISO 13485 的现行版本是什么",
+    "get_page: 医疗器械分类",
+    "list_sources: 我的知识库现在有哪些文档、索引建好了吗"
+  ],
+  "examples_en": [
+    "search_knowledge: what documents are required for Class II device registration",
+    "ask_knowledge: what is the current version of ISO 13485",
+    "get_page: medical device classification",
+    "list_sources: what docs are in my knowledge base and is the index built"
+  ],
+  "examples": {
+    "examples_zh": [
+      "search_knowledge: 二类医疗器械注册需要提交哪些资料",
+      "ask_knowledge: ISO 13485 的现行版本是什么",
+      "get_page: 医疗器械分类",
+      "list_sources: 我的知识库现在有哪些文档、索引建好了吗"
+    ],
+    "examples_en": [
+      "search_knowledge: what documents are required for Class II device registration",
+      "ask_knowledge: what is the current version of ISO 13485",
+      "get_page: medical device classification",
+      "list_sources: what docs are in my knowledge base and is the index built"
+    ]
+  },
+  "tools": [
+    {
+      "name": "search_knowledge",
+      "description": "语义检索本地知识库（wiki .md 文档），返回相关片段及相似度。",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "查询内容"
+          },
+          "top_k": {
+            "type": "number",
+            "description": "返回条数（1-20，默认 5）"
+          }
+        }
+      },
+      "permissions": {
+        "readOnly": true,
+        "network": false,
+        "dataEgress": false
+      }
+    },
+    {
+      "name": "get_page",
+      "description": "读取知识库单个 wiki 页全文。",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "页面标题或文件名（不含 .md）"
+          }
+        }
+      },
+      "permissions": {
+        "readOnly": true,
+        "network": false,
+        "dataEgress": false
+      }
+    },
+    {
+      "name": "list_sources",
+      "description": "返回知识库范围：页数、分类统计、RAG 索引条目数、数据源目录。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "permissions": {
+        "readOnly": true,
+        "network": false,
+        "dataEgress": false
+      }
+    },
+    {
+      "name": "ask_knowledge",
+      "description": "RAG 问答：检索知识库片段 + 本地生成模型回答，附引用来源。零积分、离线可用。",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "向知识库提问"
+          },
+          "top_k": {
+            "type": "number",
+            "description": "检索片段数（默认 5）"
+          }
+        }
+      },
+      "permissions": {
+        "readOnly": true,
+        "network": false,
+        "dataEgress": false
+      }
+    }
+  ],
+  "security": {
+    "networkEgress": false,
+    "requiresCredentials": false,
+    "dataLeavesMachine": false,
+    "readOnly": true,
+    "notes": "纯本地 stdio MCP。嵌入/生成仅调用本机 Ollama（http://127.0.0.1:11434），不访问任何外部网络，不上传任何数据。知识库为使用者自有 wiki（.md），连接器不绑定任何预置私有数据。",
+    "permissions": [
+      "local_fs_read"
+    ]
+  },
+  "runtime": {
+    "language": "python",
+    "minPython": "3.8",
+    "command": "python",
+    "args": [
+      "medxpert_library_server.py"
+    ],
+    "thirdPartyDeps": [],
+    "env": {
+      "LIBRARY_WIKI_DIR": "本包 wiki/ 目录（可用环境变量覆盖指向你自己的知识库）",
+      "OLLAMA_BASE_URL": "http://127.0.0.1:11434",
+      "LIBRARY_EMBED_MODEL": "bge-m3",
+      "LIBRARY_GEN_MODEL": "qwen2.5:7b"
+    }
+  },
+  "publishedVia": "WorkBuddy 开放平台",
+  "source": "medxpert-library-connector",
+  "name_en": "MedXpert LLM Library",
+  "description_zh": "MedXpert 本地知识库 MCP 连接器（通用版）：把你自己的 wiki（.md）做成可语义检索、可 RAG 问答的本地知识库。纯标准库实现，仅依赖本地 Ollama 做嵌入/生成，零第三方依赖、零积分、断网可用。知识库随你自有文档，不绑定任何私有数据。",
+  "standardAlignment": {
+    "standard": "GB/Z 185—2026 人工智能 智能体互联",
+    "parts": [
+      "185.7 智能体工具调用（工具描述）",
+      "185.2 身份码（部分）"
+    ],
+    "note": "工具描述对齐 GB/Z 185.7；不构成国家标准符合性声称。GB/Z 为国家标准化指导性技术文件。"
+  }
+}

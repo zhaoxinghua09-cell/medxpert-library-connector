@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "medxpert-library": {
+      "command": "python",
+      "args": ["medxpert_library_server.py"],
+      "env": {
+        "LIBRARY_WIKI_DIR": "./wiki",
+        "OLLAMA_BASE_URL": "http://127.0.0.1:11434",
+        "LIBRARY_EMBED_MODEL": "bge-m3",
+        "LIBRARY_GEN_MODEL": "qwen2.5:7b"
+      }
+    }
+  }
+}
