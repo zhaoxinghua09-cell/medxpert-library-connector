@@ -1,0 +1,13 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.zhaoxinghua09-cell/medxpert-library-connector",
+  "title": "MedXpert 图书馆连接器（通用版）",
+  "description": "Local RAG MCP server for your own .md knowledge base: BM25 + local Ollama, offline, zero egress.",
+  "version": "1.0.0",
+  "websiteUrl": "https://medxpert.cn",
+  "repository": {
+    "url": "https://github.com/zhaoxinghua09-cell/medxpert-library-connector",
+    "source": "github",
+    "id": "1392038641"
+  }
+}

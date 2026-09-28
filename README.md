@@ -69,3 +69,12 @@ medxpert-library-connector/
 ---
 
 Copyright (c) 2026 注册老炮 (Reg Lao Pao) — MIT License
+
+## 权利与归属（Rights & Attribution）
+
+MIT License © 注册老炮@MedXpert（代码）。
+
+© 2026 赵兴华 / Steven Zhao·China (ORCID 0009-0001-0512-1237). All rights reserved.
+名称状态 (name status)  : "SynomosAI" / "MedXpert" — 未申请实体注册、未申请商标注册
+                        (not a registered legal entity; no trademark registered)
+`mcp-name: io.github.zhaoxinghua09-cell/medxpert-library-connector`
