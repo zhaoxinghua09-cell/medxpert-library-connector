@@ -1,0 +1,16 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      LIBRARY_WIKI_DIR:
+        type: string
+        description: Path to your .md wiki directory (default: wiki/)
+      OLLAMA_BASE_URL:
+        type: string
+        description: Ollama base URL (default: http://127.0.0.1:11434)
+    required: []
+  commandFunction: |-
+    (config) => ({ command: 'python', args: ['medxpert_library_server.py'], env: Object.assign({}, config.LIBRARY_WIKI_DIR ? { LIBRARY_WIKI_DIR: config.LIBRARY_WIKI_DIR } : {}, config.OLLAMA_BASE_URL ? { OLLAMA_BASE_URL: config.OLLAMA_BASE_URL } : {}) })
+name: medxpert-library-connector
+description: Local RAG knowledge-base MCP connector for your own .md wiki (offline, zero egress).
