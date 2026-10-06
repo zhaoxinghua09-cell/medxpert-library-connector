@@ -1,0 +1,51 @@
+{
+  "schema": "ubic/agent-card/v1",
+  "name": "MedXpert 图书馆（通用版）连接器",
+  "description": "Turn your own .md wiki into a local, semantic-searchable, RAG-capable knowledge-base MCP connector. Pure Python stdlib (stdio JSON-RPC), zero third-party deps, local Ollama embeddings, offline, zero data egress.",
+  "protocol": "MCP",
+  "provider": {
+    "organization": "MedXpert",
+    "url": "https://medxpert.cn"
+  },
+  "author": "赵兴华 / Steven Zhao·China（ORCID 0009-0001-0512-1237）",
+  "capabilities": [
+    "semantic search",
+    "RAG Q&A with citations",
+    "local embeddings via Ollama",
+    "offline / zero egress",
+    "user-owned wiki"
+  ],
+  "keywords": [
+    "local knowledge base",
+    "RAG",
+    "semantic search",
+    "Ollama",
+    "markdown wiki",
+    "private RAG",
+    "离线知识库",
+    "本地检索",
+    "零积分",
+    "断网可用",
+    "MCP connector",
+    "文档问答",
+    "向量索引",
+    "bge-m3",
+    "personal AI",
+    "知识库"
+  ],
+  "auth": {
+    "mode": "none",
+    "note": "read-only, no credentials required"
+  },
+  "transport": {
+    "type": "stdio",
+    "command": "python",
+    "args": [
+      "medxpert_library_server.py"
+    ]
+  },
+  "homepage": "https://medxpert.cn",
+  "license": "Apache-2.0",
+  "installByConsent": "AI may request install; human approves (A3 Law II)",
+  "scope": "user-owned documents only — no bundled proprietary content"
+}
