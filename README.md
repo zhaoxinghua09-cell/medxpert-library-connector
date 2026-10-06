@@ -55,7 +55,7 @@ medxpert-library-connector/
 ├── connector-meta.json          # 开放平台元数据
 ├── mcp.json                     # MCP 启动配置
 ├── icon.svg                     # 头像
-├── LICENSE                      # MIT
+├── LICENSE                  # Apache-2.0
 ├── requirements.txt             # 依赖说明（仅 Ollama）
 └── README.md
 ```
@@ -68,13 +68,12 @@ medxpert-library-connector/
 
 ---
 
-Copyright (c) 2026 注册老炮 (Reg Lao Pao) — MIT License
+## 许可说明 · License Notice
 
-## 权利与归属（Rights & Attribution）
+- **代码许可**：本仓库源代码以 **Apache-2.0** 许可发布（见根目录 [LICENSE](LICENSE)），版权归「赵兴华 / Steven Zhao·China（ORCID 0009-0001-0512-1237）」。
+- **内容权属**：本仓库不捆绑专有知识库；随附示例内容仅供演示，归其原始所有者所有。代码以 Apache-2.0 许可发布。
+- **品牌状态限定**：MedXpert、SynomosAI、LGD 等为相关项目标识，**均未申请实体注册、未申请商标注册**；出现仅作来源标识，不构成对法人实体或商标权的任何主张。
+- **免责**：本仓库内容不构成法规意见、法律意见或注册代理服务；关键数据以监管机构最新发布为准。
+- **联系**：zhaoxinghua09@gmail.com ｜ ORCID 0009-0001-0512-1237
 
-MIT License © 注册老炮@MedXpert（代码）。
-
-© 2026 赵兴华 / Steven Zhao·China (ORCID 0009-0001-0512-1237). All rights reserved.
-名称状态 (name status)  : "SynomosAI" / "MedXpert" — 未申请实体注册、未申请商标注册
-                        (not a registered legal entity; no trademark registered)
 `mcp-name: io.github.zhaoxinghua09-cell/medxpert-library-connector`
