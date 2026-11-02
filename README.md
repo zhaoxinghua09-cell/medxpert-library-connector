@@ -70,7 +70,8 @@ medxpert-library-connector/
 
 ## 许可说明 · License Notice
 
-- **代码许可**：本仓库源代码以 **Apache-2.0** 许可发布（见根目录 [LICENSE](LICENSE)），版权归「赵兴华 / Steven Zhao·China（ORCID 0009-0001-0512-1237）」。
+- **代码许可**：本仓库源代码以 **Apache-2.0** 许可发布（见根目录 [LICENSE](LICENSE)）。
+© 2026 赵兴华 / Steven Zhao (ORCID 0009-0001-0512-1237). All rights reserved.
 - **内容权属**：本仓库不捆绑专有知识库；随附示例内容仅供演示，归其原始所有者所有。代码以 Apache-2.0 许可发布。
 - **品牌状态限定**：MedXpert、SynomosAI、LGD 等为相关项目标识，**均未申请实体注册、未申请商标注册**；出现仅作来源标识，不构成对法人实体或商标权的任何主张。
 - **免责**：本仓库内容不构成法规意见、法律意见或注册代理服务；关键数据以监管机构最新发布为准。
