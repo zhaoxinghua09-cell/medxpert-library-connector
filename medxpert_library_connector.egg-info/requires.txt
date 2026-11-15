@@ -1,3 +1,0 @@
-
-[local-embed]
-fastembed>=0.3
