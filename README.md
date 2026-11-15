@@ -1,3 +1,28 @@
+# MedXpert Library Connector
+
+<!-- mcp-name: io.github.zhaoxinghua09-cell/medxpert-library-connector -->
+
+Turn **your own wiki (plain `.md` documents)** into a locally searchable, RAG-capable MCP server.
+
+- Pure Python standard library (stdio JSON-RPC 2.0) — **no third-party runtime dependency**
+- Embedding and generation run on **local Ollama** — no API keys, works offline
+- The knowledge base is your own documents; only a three-page sample wiki is bundled
+- Everything runs on your machine; the server makes no external network call
+
+| Tool | What it does |
+|------|--------------|
+| `search_knowledge(query, top_k?)` | Semantic search over your wiki; snippets with similarity |
+| `get_page(title)` | Full text of one wiki page |
+| `list_sources()` | Library scope: page count, categories, index status |
+| `ask_knowledge(question, top_k?)` | RAG answer: retrieval + local generation model, with citations |
+
+```bash
+pip install medxpert-library-connector      # or: uvx medxpert-library-connector
+LIBRARY_WIKI_DIR=/path/to/your/wiki medxpert-library-connector
+```
+
+---
+
 # MedXpert 图书馆（通用版）连接器
 
 把**你自己的 wiki（.md 文档）**做成可语义检索、可 RAG 问答的本地知识库 MCP 连接器。

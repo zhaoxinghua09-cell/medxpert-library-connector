@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medxpert-library-connector"
+description = "Local RAG MCP server for your own .md wiki: BM25 + cosine over local Ollama embeddings, offline, zero egress."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "Zhao Xinghua (Steven Zhao)", email = "zhaoxinghua09@gmail.com" }]
+keywords = ["mcp", "model-context-protocol", "rag", "knowledge-base", "ollama", "offline", "medical-device"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Healthcare Industry",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+  "Operating System :: OS Independent",
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.optional-dependencies]
+# 检索与问答都在本地 Ollama 上跑，本包本身不需要任何第三方依赖。
+# `fastembed` 仅供 rag_engine 的可选本地嵌入后端使用。
+local-embed = ["fastembed>=0.3"]
+
+[project.scripts]
+# 三个别名指向同一个 stdio server；`medxpert-library-connector` 与包同名，
+# 这样 `uvx medxpert-library-connector` 能直接起服务（Registry 客户端按包名解析）。
+medxpert-library-connector = "medxpert_library.server:main"
+medxpert-library = "medxpert_library.server:main"
+medxpert-library-mcp = "medxpert_library.server:main"
+medxpert-rag = "medxpert_library.rag_engine:main"
+
+[project.urls]
+Homepage = "https://medxpert.cn"
+Repository = "https://github.com/zhaoxinghua09-cell/medxpert-library-connector"
+Issues = "https://github.com/zhaoxinghua09-cell/medxpert-library-connector/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "medxpert_library.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["medxpert_library*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+medxpert_library = ["wiki/*.md"]
