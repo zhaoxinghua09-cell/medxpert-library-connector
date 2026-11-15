@@ -3,11 +3,54 @@
   "name": "io.github.zhaoxinghua09-cell/medxpert-library-connector",
   "title": "MedXpert 图书馆连接器（通用版）",
   "description": "Local RAG MCP server for your own .md knowledge base: BM25 + local Ollama, offline, zero egress.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "websiteUrl": "https://medxpert.cn",
   "repository": {
     "url": "https://github.com/zhaoxinghua09-cell/medxpert-library-connector",
     "source": "github",
     "id": "1392038641"
+  },
+  "icons": [
+    {
+      "src": "https://cdn.jsdelivr.net/gh/zhaoxinghua09-cell/medxpert-library-connector@main/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"],
+      "theme": "light"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "medxpert-library-connector",
+      "version": "1.0.1",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "LIBRARY_WIKI_DIR",
+          "description": "Directory of your own .md files. Defaults to the sample wiki bundled in the package.",
+          "isRequired": false
+        },
+        {
+          "name": "OLLAMA_BASE_URL",
+          "description": "Local Ollama endpoint used for embeddings and generation (default http://127.0.0.1:11434).",
+          "isRequired": false
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "publisher": "MedXpert.org / Zhao Xinghua (Steven Zhao)",
+      "license": "Apache-2.0",
+      "runtime_egress": "localhost-only (Ollama on 127.0.0.1:11434)",
+      "tool_count": 4,
+      "tools": "search_knowledge, get_page, list_sources, ask_knowledge",
+      "verify_command": "uvx medxpert-library-connector",
+      "prerequisite": "Ollama running locally with an embedding model pulled (e.g. ollama pull bge-m3).",
+      "scope_note": "Retrieval runs over the user's own documents; the bundled sample wiki is three pages and contains no proprietary data."
+    }
   }
 }

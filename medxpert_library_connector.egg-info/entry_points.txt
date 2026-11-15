@@ -1,0 +1,5 @@
+[console_scripts]
+medxpert-library = medxpert_library.server:main
+medxpert-library-connector = medxpert_library.server:main
+medxpert-library-mcp = medxpert_library.server:main
+medxpert-rag = medxpert_library.rag_engine:main
