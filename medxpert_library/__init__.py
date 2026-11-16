@@ -6,6 +6,6 @@ server answers out of the box. Point ``LIBRARY_WIKI_DIR`` at your own
 directory of ``.md`` files to search your own knowledge base.
 """
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 __all__ = ["__version__"]

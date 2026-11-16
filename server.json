@@ -3,7 +3,7 @@
   "name": "io.github.zhaoxinghua09-cell/medxpert-library-connector",
   "title": "MedXpert 图书馆连接器（通用版）",
   "description": "Local RAG MCP server for your own .md knowledge base: BM25 + local Ollama, offline, zero egress.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "websiteUrl": "https://medxpert.cn",
   "repository": {
     "url": "https://github.com/zhaoxinghua09-cell/medxpert-library-connector",
@@ -12,7 +12,7 @@
   },
   "icons": [
     {
-      "src": "https://cdn.jsdelivr.net/gh/zhaoxinghua09-cell/medxpert-library-connector@main/icon.svg",
+      "src": "https://cdn.jsdelivr.net/gh/zhaoxinghua09-cell/medxpert-library-connector@v1.0.2/icon.svg",
       "mimeType": "image/svg+xml",
       "sizes": ["any"],
       "theme": "light"
@@ -22,7 +22,7 @@
     {
       "registryType": "pypi",
       "identifier": "medxpert-library-connector",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"
