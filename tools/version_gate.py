@@ -47,6 +47,31 @@ def dist_name() -> str | None:
 def manifests() -> list[pathlib.Path]:
     return [p for p in [ROOT / "server.json"] if p.exists()]
 
+def pin_problems() -> list[str]:
+    """Every `uses:` must be a full 40-character commit SHA.
+
+    A floating tag (@v4) is a moving target: whatever the tag points at runs with the
+    repository's token. This repository learned the cost of that the hard way when a
+    workflow silently failed to start because an action was not pinned.
+    """
+    import re as _re
+    bad: list[str] = []
+    wf_dir = ROOT / ".github" / "workflows"
+    if not wf_dir.exists():
+        return bad
+    pat = _re.compile(r"uses:\s*([^\s#]+)")
+    sha = _re.compile(r"^[^@]+@[0-9a-f]{40}$")
+    for p in sorted(wf_dir.glob("*.yml")) + sorted(wf_dir.glob("*.yaml")):
+        for lineno, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
+            m = pat.search(line)
+            if not m:
+                continue
+            ref = m.group(1)
+            if ref.startswith("./"):
+                continue
+            if not sha.match(ref):
+                bad.append(f"{p.name}:{lineno}: {ref} is not pinned to a 40-character SHA")
+    return bad
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -95,6 +120,8 @@ def main() -> int:
 
     if runtime is not None and runtime.startswith("<"):
         problems.append(f"runtime: 取不到版本 {runtime}")
+
+    problems += pin_problems()
 
     if problems:
         print("\nGATE FAIL:")
