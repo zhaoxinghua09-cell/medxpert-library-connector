@@ -1,0 +1,102 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    env:
+      UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dist
+          path: dist/
+      # Neither attempt decides the job: only the readback below is allowed to.
+      - name: Publish (Trusted Publishing)
+        id: oidc
+        continue-on-error: true
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # release/v1 (v1.14.3)
+      - name: Publish (API token fallback)
+        if: steps.oidc.outcome == 'failure' && env.UV_PUBLISH_TOKEN != ''
+        continue-on-error: true
+        run: |
+          python -m pip install --upgrade pip uv
+          uv publish --token "$UV_PUBLISH_TOKEN"
+      - name: Verify the version is actually on PyPI
+        if: always()
+        env:
+          PKG: medxpert-library-connector
+          INIT: medxpert_library/__init__.py
+          MANIFEST: pyproject.toml
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          # Resolve the version first, then ask PyPI over curl. Python is used for
+          # parsing only: no TLS from Python, so the step behaves the same on a
+          # runner and on a laptop with a strict TLS stack.
+          WANT=$(printf '%s' "$TAG" | sed 's/^v//')
+          if [ -z "$WANT" ]; then
+            for F in "$INIT" "$MANIFEST"; do
+              [ -n "$F" ] && [ -f "$F" ] || continue
+              WANT=$(python3 - "$F" <<'PY'
+          import re, sys
+          txt = open(sys.argv[1], encoding="utf-8").read()
+          m = re.search(r'__version__\s*=\s*"([^"]+)"', txt) or re.search(r'^version\s*=\s*"([^"]+)"', txt, re.M)
+          print(m.group(1) if m else "")
+          PY
+          )
+              if [ -n "$WANT" ]; then
+                echo "no tag event; $F says $WANT"
+                break
+              fi
+            done
+          fi
+          if [ -z "$WANT" ]; then
+            echo "cannot determine a version to verify"
+            exit 1
+          fi
+          for i in $(seq 1 12); do
+            curl -sS -o /tmp/pypi.json "https://pypi.org/pypi/$PKG/json" || echo "poll $i: fetch failed"
+            if HAVE=$(python3 - "$WANT" <<'PY'
+          import json, sys
+          want = sys.argv[1]
+          known = list((json.load(open("/tmp/pypi.json")).get("releases") or {}).keys())
+          print(" ".join(known))
+          sys.exit(0 if want in known else 1)
+          PY
+            ); then
+              echo "VERIFIED $PKG $WANT on PyPI"
+              exit 0
+            fi
+            echo "poll $i: $WANT not released yet (known: $HAVE)"
+            sleep 10
+          done
+          echo "NOT ON PYPI: $PKG $WANT - the publish step reported success but published nothing"
+          exit 1
